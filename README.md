@@ -1,2 +1,3 @@
-# JavaScript
-Github repository for different java side projects that I use for fun
+# DelrikRepo
+
+Deze Repo is gemaakt voor Project NightLight en meerdere andere persoonlijke projecten van Rad0n en Dvalk
