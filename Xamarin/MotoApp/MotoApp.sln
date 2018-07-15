@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoApp.Android", "MotoApp\MotoApp.Android\MotoApp.Android.csproj", "{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MotoApp", "MotoApp\MotoApp\MotoApp.shproj", "{642AF496-BE2A-48C7-81D1-4AF49ED9D84C}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MotoApp\MotoApp\MotoApp.projitems*{03923174-39a4-47ce-a7f1-5d6bb0ccfdbd}*SharedItemsImports = 4
+		MotoApp\MotoApp\MotoApp.projitems*{642af496-be2a-48c7-81d1-4af49ed9d84c}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03923174-39A4-47CE-A7F1-5D6BB0CCFDBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC11E902-1BA8-4BFF-A3A4-EA03DE6AFA8D}
+	EndGlobalSection
+EndGlobal
