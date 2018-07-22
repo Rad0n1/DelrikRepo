@@ -1,26 +1,41 @@
 var cols, rows;
-var w = 20;
+var w = 40;
 var grid = [];
+var mazeBuild = false;
 
 var current;
 var previous;
 var n = 0;
+var z = 0;
 var stack = [];
+
+var openSet = [];
+var closedSet = [];
+var start;
+var end;
+var gridNumber = 0;
+var pathFound = false;
+var path = [];
+
 
 function setup() {
 	createCanvas(400, 400);
 	cols = floor(width/w);
 	rows = floor(height/w);
-	// frameRate(5);
+	// frameRate(50);
 
 	for(var y = 0; y < cols; y++){
 		for(var x = 0; x < rows; x++){
-			var cell = new Cell(x, y);
+			var cell = new Cell(x, y, z);
 			grid.push(cell);
+			z++;
 		}
 	}
 
 	current = grid[n];
+	start = grid[0];
+	openSet.push(start);
+	end = grid[grid.length - 1]
 }
 
 function draw() {
@@ -30,12 +45,14 @@ function draw() {
 		grid[i].show();
 	}
 
-	current.visited = true;
-	fill(0, 255, 0);
-	noStroke();
-	rect(current.x * w, current.y * w, w, w)
+	if(!mazeBuild){
+		current.visited = true;
+		fill(0, 255, 0);
+		noStroke();
+		rect(current.x * w, current.y * w, w, w);
+	}
 
-	var next = checkNeighbours();
+	var next = checkNeighbours(n);
 	if(next > 0){
 		stack.push(n);
 		removeWalls(n, next);
@@ -45,68 +62,118 @@ function draw() {
 		stack.pop();
 		n = stack[stack.length - 1];
 		current = grid[n];
+	}else if(stack.length <= 1){
+		mazeBuild = true;
 	}
 
-
-
-}
-
-function Cell(x, y) {
-	this.x = x;
-	this.y = y;
-	this.walls = [true, true, true, true]
-	this.visited = false;
-
-	this.show = function(){
-		var x = this.x * w;
-		var y = this.y * w;
-		stroke(255);
-
-		if(this.walls[0]){
-			line(x, y, x + w, y);
+	if(mazeBuild && openSet.length > 0 && !pathFound){
+		var winner = 0;
+		for(var i = 0; i < openSet.length; i++){
+			if(openSet[i].f < openSet[winner].f){
+				winner = i;
+			}
 		}
 
-		if(this.walls[1]){
-			line(x + w, y, x + w, y + w);
+		var current1 = openSet[winner];
+		gridNumber = current1.z;
+
+		if (openSet[winner] === end){
+
+			var temp = current1;
+			path.push(temp);
+			while(temp.previous){
+				path.push(temp.previous);
+				temp = temp.previous;
+			}
+
+			console.log("DONE!");
+			pathFound = true;
 		}
 
-		if(this.walls[2]){
-			line(x + w, y + w, x, y + w);
+		var index = openSet.indexOf(current1);
+		openSet.splice(index, 1);
+		closedSet.push(current1);
+
+		var newNeighbours = checkNeighbours(gridNumber);
+		for(var i = 0; i < newNeighbours.length; i++){
+			var neighbour = grid[newNeighbours[i]]
+
+			if(closedSet.indexOf(neighbour) >= 0){
+				continue;
+			}
+
+			var tempG = current1.g + 1;
+
+			if(openSet.indexOf(neighbour) < 0){
+				neighbour.g = tempG;
+				openSet.push(neighbour);
+			}else{
+				if(tempG < neighbour.g){
+					neighbour.g = tempG;
+				}
+			}
+
+			neighbour.h = heuristic(neighbour, end);
+			neighbour.f = neighbour.g + neighbour.h;
+			neighbour.previous = current1;
+
 		}
 
-		if(this.walls[3]){
-			line(x, y, x, y + w);
-		}
+	}else{
+		//No solution
+	}
 
-		if(this.visited){
+	if(!pathFound && mazeBuild){
+		fill(0, 255, 0);
+		noStroke();
+		rect(current1.x * w, current1.y * w, w, w);
+	}
+
+	if(pathFound && mazeBuild){
+		for(var i = 0; i < path.length; i++){
+			fill(0, 0, 255, 80);
 			noStroke();
-			fill(185, 0 , 151, 100);
-			rect(x, y, w, w);
+			rect(path[i].x * w, path[i].y * w, w, w);
 		}
 	}
 }
 
 
-function checkNeighbours(){
+function checkNeighbours(a){
 	var neighbours = [];
 	var next;
+	if(!mazeBuild){
+		if(a - rows >= 0 && a - rows <= grid.length - 1 && !grid[a - rows].visited)
+			neighbours.push(a - rows);
 
-	if(n - rows >= 0 && n - rows <= grid.length - 1 && !grid[n - rows].visited)
-		neighbours.push(n - rows);
+		if(floor((a + 1) / rows) <= floor(a / rows) && a + 1 >= 0 && a + 1 <= grid.length - 1 && !grid[a + 1].visited)
+			neighbours.push(a + 1);
 
-	if(floor((n + 1) / rows) <= floor(n / rows) && n + 1 >= 0 && n + 1 <= grid.length - 1 && !grid[n + 1].visited)
-		neighbours.push(n + 1);
+		if(a + rows >= 0 && a + rows <= grid.length - 1 && !grid[a + rows].visited)
+			neighbours.push(a + rows);
 
-	if(n + rows >= 0 && n + rows <= grid.length - 1 && !grid[n + rows].visited)
-		neighbours.push(n + rows);
+		if(floor((a - 1) / rows) >= floor(a / rows) && a - 1 >= 0 && a - 1 <= grid.length - 1 && !grid[a - 1].visited)
+			neighbours.push(a - 1);
 
-	if(floor((n - 1) / rows) >= floor(n / rows) && n - 1 >= 0 && n - 1 <= grid.length - 1 && !grid[n - 1].visited)
-		neighbours.push(n - 1);
+		if(neighbours.length > 0){
+			var rand = round(random(0, neighbours.length - 1));
+			next = neighbours[rand];
+			return next;
+		}
+	}else if(mazeBuild){
+		if(a - rows >= 0 && a - rows <= grid.length - 1 && !grid[a].walls[0])
+			neighbours.push(a - rows);
 
-	if(neighbours.length > 0){
-		var rand = round(random(0, neighbours.length - 1));
-		next = neighbours[rand];
-		return next;
+		if(floor((a + 1) / rows) <= floor(a / rows) && a + 1 >= 0 && a + 1 <= grid.length - 1 && !grid[a].walls[1])
+			neighbours.push(a + 1);
+
+		if(a + rows >= 0 && a + rows <= grid.length - 1 && !grid[a].walls[2])
+			neighbours.push(a + rows);
+
+		if(floor((a - 1) / rows) >= floor(a / rows) && a - 1 >= 0 && a - 1 <= grid.length - 1 && !grid[a].walls[3])
+			neighbours.push(a - 1);
+
+		return neighbours;
 	}
 }
 
@@ -133,4 +200,9 @@ function removeWalls(a, b){
 		grid[b].walls[2] = false;
 		break;
 	}
+}
+
+function heuristic(a, b){
+	var d = dist(a.x, a.y, b.x, b.y);
+	return d;
 }
