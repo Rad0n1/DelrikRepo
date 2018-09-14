@@ -1,5 +1,5 @@
 var n = 0;
-var c = 5;
+var c = 3;
 
 function setup(){
 	createCanvas(600, 400);
@@ -24,6 +24,6 @@ function draw(){
 		noStroke();
 		ellipse(x, y, 8, 8);
 	}
-
+	console.log(cos(a));
 	n++;
 }
