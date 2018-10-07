@@ -118,7 +118,7 @@ function calcBombsAround(cell){
 	if(!cell.bomb){
 		var bombs = 0;
 		var n = cell.z
-		
+
 		//upperLeft
 		if(n - rows - 1 >= 0 && floor((n - rows - 1) / rows) == floor((n / rows) - 1) && grid[n - rows - 1].bomb)
 			bombs++;
@@ -153,7 +153,7 @@ function calcBombsAround(cell){
 
 		cell.bombsAround = bombs;
 		cell.number = bombs;
-	}	
+	}
 }
 
 function checkNeighbours(cell){
@@ -174,11 +174,11 @@ function checkNeighbours(cell){
 					}
 				}
 			}
-				
+
 			//upper
 			if(n - rows >= 0 && grid[n - rows].bomb && !grid[n - rows].emptyCheck){
 				emptyNeighbours.push(grid[n - rows]);
-				
+
 				if(grid[n - rows].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n - rows]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -190,7 +190,7 @@ function checkNeighbours(cell){
 			//upperRight
 			if(n - rows + 1 >= 0 && floor((n - rows + 1) / rows) != floor((n / rows)) && !grid[n - rows + 1].emptyCheck){
 				emptyNeighbours.push(grid[n - rows + 1]);
-				
+
 				if(grid[n - rows + 1].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n - rows + 1]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -202,7 +202,7 @@ function checkNeighbours(cell){
 			//left
 			if(n - 1 >= 0 && floor((n - 1) / rows) == floor(n / rows) && !grid[n - 1].emptyCheck){
 				emptyNeighbours.push(grid[n - 1]);
-				
+
 				if(grid[n - 1].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n - 1]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -214,7 +214,7 @@ function checkNeighbours(cell){
 			//right
 			if(n + 1 <= grid.length - 1 && floor((n + 1) / rows) == floor(n / rows) && !grid[n + 1].emptyCheck){
 				emptyNeighbours.push(grid[n + 1]);
-				
+
 				if(grid[n + 1].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n + 1]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -226,7 +226,7 @@ function checkNeighbours(cell){
 			//bottomLeft
 			if(n + rows - 1 <= grid.length - 1 && floor((n + rows - 1) / rows) != floor(n / rows) && !grid[n + rows - 1].emptyCheck){
 				emptyNeighbours.push(grid[n + rows - 1]);
-				
+
 				if(grid[n + rows - 1].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n + rows - 1]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -238,7 +238,7 @@ function checkNeighbours(cell){
 			//bottom
 			if(n + rows <= grid.length - 1 && !grid[n + rows].emptyCheck){
 				emptyNeighbours.push(grid[n + rows]);
-				
+
 				if(grid[n + rows].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n + rows]);
 					for(var i = 0; i < tempNeighbours.length; i++){
@@ -250,7 +250,7 @@ function checkNeighbours(cell){
 			//bottomRight
 			if(n + rows + 1 <= grid.length - 1 && floor((n + rows + 1) / rows) == floor((n / rows) + 1) && !grid[n + rows + 1].emptyCheck){
 				emptyNeighbours.push(grid[n + rows + 1]);
-				
+
 				if(grid[n +  rows + 1].number == "0"){
 					var tempNeighbours = checkNeighbours(grid[n + rows + 1]);
 					for(var i = 0; i < tempNeighbours.length; i++){

@@ -1,17 +1,10 @@
 function Cell(x, y, z) {
-	
+
 	//General
 	this.x = x;
 	this.y = y;
 	this.z = z;
-
-	//MazeBuilding
-	this.f = 0;
-	this.g = 0;
-	this.h = 0;
-	this.previous;
 	this.walls = [true, true, true, true]
-	this.visited = false;
 
 	//MineSweeper
 	this.bomb = false;
@@ -41,12 +34,6 @@ function Cell(x, y, z) {
 
 		if(this.walls[3]){
 			line(x, y, x, y + w);
-		}
-
-		if(this.visited){
-			noStroke();
-			fill(185, 0 , 151, 100);
-			rect(x, y, w, w);
 		}
 
 		if(this.bomb && !this.hidden){
